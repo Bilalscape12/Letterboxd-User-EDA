@@ -22,7 +22,7 @@ CREATE TEMP TABLE temp_watched (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text UNIQUE NOT NULL
+  page_link text PRIMARY KEY
 );
 
 CREATE TEMP TABLE temp_watchlist (
@@ -30,7 +30,7 @@ CREATE TEMP TABLE temp_watchlist (
   add_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text UNIQUE NOT NULL
+  page_link text PRIMARY KEY
 );
 
 CREATE TEMP TABLE temp_reviews (
@@ -38,7 +38,7 @@ CREATE TEMP TABLE temp_reviews (
   watch_date date,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text UNIQUE NOT NULL,
+  page_link text PRIMARY KEY,
   rating numeric(2, 1),
   rewatch text,
   review text NOT NULL,
@@ -51,7 +51,7 @@ CREATE TEMP TABLE temp_ratings (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text UNIQUE NOT NULL,
+  page_link text PRIMARY KEY,
   rating numeric(2, 1) NOT NULL
 );
 
@@ -60,7 +60,7 @@ CREATE TEMP TABLE temp_diary (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text UNIQUE NOT NULL,
+  page_link text PRIMARY KEY,
   rating numeric(2, 1),
   rewatch text,
   tags text,
@@ -79,13 +79,13 @@ CREATE TEMP TABLE temp_liked_films (
   watch_date date,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text UNIQUE NOT NULL
+  page_link text PRIMARY KEY
 );
 
 CREATE TEMP TABLE temp_liked_reviews (
   username text NOT NULL REFERENCES temp_profiles (username),
   liked_date date NOT NULL,
-  page_link text UNIQUE NOT NULL
+  page_link text PRIMARY KEY
 );
 
 -- imports for bilal
