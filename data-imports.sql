@@ -22,7 +22,8 @@ CREATE TEMP TABLE temp_watched (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TEMP TABLE temp_watchlist (
@@ -30,7 +31,8 @@ CREATE TEMP TABLE temp_watchlist (
   add_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TEMP TABLE temp_reviews (
@@ -38,12 +40,13 @@ CREATE TEMP TABLE temp_reviews (
   watch_date date,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY,
+  page_link text NOT NULL,
   rating numeric(2, 1),
   rewatch text,
   review text NOT NULL,
   tags text,
-  log_date date
+  log_date date,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TEMP TABLE temp_ratings (
@@ -51,8 +54,9 @@ CREATE TEMP TABLE temp_ratings (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY,
-  rating numeric(2, 1) NOT NULL
+  page_link text NOT NULL,
+  rating numeric(2, 1) NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TEMP TABLE temp_diary (
@@ -60,11 +64,12 @@ CREATE TEMP TABLE temp_diary (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY,
+  page_link text NOT NULL,
   rating numeric(2, 1),
   rewatch text,
   tags text,
-  log_date date NOT NULL
+  log_date date NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TEMP TABLE temp_user_comments (
@@ -79,13 +84,15 @@ CREATE TEMP TABLE temp_liked_films (
   watch_date date,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TEMP TABLE temp_liked_reviews (
   username text NOT NULL REFERENCES temp_profiles (username),
   liked_date date NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 -- imports for bilal
@@ -114,7 +121,7 @@ FROM temp_watched
 WHERE NOT EXISTS (
   SELECT 1
   FROM watched
-  WHERE watched.page_link = temp_watched.page_link
+  WHERE watched.username = temp_watched.username AND watched.page_link = temp_watched.page_link
 );
 
 INSERT INTO watchlist
@@ -123,7 +130,7 @@ FROM temp_watchlist
 WHERE NOT EXISTS (
   SELECT 1
   FROM watchlist
-  WHERE watchlist.page_link = temp_watchlist.page_link
+  WHERE watchlist.username = temp_watchlist.username AND watchlist.page_link = temp_watchlist.page_link
 );
 
 INSERT INTO reviews
@@ -132,7 +139,7 @@ FROM temp_reviews
 WHERE NOT EXISTS (
   SELECT 1
   FROM reviews
-  WHERE reviews.page_link = temp_reviews.page_link
+  WHERE reviews.username = temp_reviews.username AND reviews.page_link = temp_reviews.page_link
 );
 
 INSERT INTO ratings
@@ -141,7 +148,7 @@ FROM temp_ratings
 WHERE NOT EXISTS (
   SELECT 1
   FROM ratings
-  WHERE ratings.page_link = temp_ratings.page_link
+  WHERE ratings.username = temp_ratings.username AND ratings.page_link = temp_ratings.page_link
 );
 
 INSERT INTO diary
@@ -150,7 +157,7 @@ FROM temp_diary
 WHERE NOT EXISTS (
   SELECT 1
   FROM diary
-  WHERE diary.page_link = temp_diary.page_link
+  WHERE diary.username = temp_diary.username AND diary.page_link = temp_diary.page_link
 );
 
 INSERT INTO user_comments
@@ -171,7 +178,7 @@ FROM temp_liked_films
 WHERE NOT EXISTS (
   SELECT 1
   FROM liked_films
-  WHERE liked_films.page_link = temp_liked_films.page_link
+  WHERE liked_films.username = temp_liked_films.username AND liked_films.page_link = temp_liked_films.page_link
 );
 
 INSERT INTO liked_reviews
@@ -180,7 +187,7 @@ FROM temp_liked_reviews
 WHERE NOT EXISTS (
   SELECT 1
   FROM liked_reviews
-  WHERE liked_reviews.page_link = temp_liked_reviews.page_link
+  WHERE liked_reviews.username = temp_liked_reviews.username AND liked_reviews.page_link = temp_liked_reviews.page_link
 );
 
 DROP TABLE temp_watched;
