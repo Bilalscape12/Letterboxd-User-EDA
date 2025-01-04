@@ -28,7 +28,8 @@ CREATE TABLE watched (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TABLE watchlist (
@@ -36,7 +37,8 @@ CREATE TABLE watchlist (
   add_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TABLE reviews (
@@ -44,12 +46,13 @@ CREATE TABLE reviews (
   watch_date date,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY,
+  page_link text NOT NULL,
   rating numeric(2, 1),
   rewatch text,
   review text NOT NULL,
   tags text,
-  log_date date
+  log_date date,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TABLE ratings (
@@ -57,8 +60,9 @@ CREATE TABLE ratings (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY,
-  rating numeric(2, 1) NOT NULL
+  page_link text NOT NULL,
+  rating numeric(2, 1) NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TABLE diary (
@@ -66,11 +70,12 @@ CREATE TABLE diary (
   watch_date date NOT NULL,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY,
+  page_link text NOT NULL,
   rating numeric(2, 1),
   rewatch text,
   tags text,
-  log_date date NOT NULL
+  log_date date NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TABLE user_comments (
@@ -85,11 +90,13 @@ CREATE TABLE liked_films (
   watch_date date,
   title text NOT NULL,
   release_year smallint NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
 
 CREATE TABLE liked_reviews (
   username text NOT NULL REFERENCES profiles (username),
   liked_date date NOT NULL,
-  page_link text PRIMARY KEY
+  page_link text NOT NULL,
+  PRIMARY KEY (username, page_link)
 );
