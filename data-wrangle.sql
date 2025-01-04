@@ -1,9 +1,9 @@
 -- 1. Clean up tables by merging reviews/diary and ratings/watched tables
--- 2. The diary table is missing a foreign key from the watched table
+-- 2. The diary table is missing a foreign key for page_link from the watched table
 -- 3. Replace watch_date column from the watched table with the earliest date
 -- 4. Remove watch_date column from diary table and drop extra tables
 
--- 1.
+-- 1. Clean up tables by merging reviews/diary and ratings/watched tables
 ALTER TABLE diary
 ADD COLUMN review text;
 
@@ -20,7 +20,7 @@ SET rating = ratings.rating
 FROM ratings
 WHERE watched.username = ratings.username AND watched.page_link = ratings.page_link;
 
--- 2.
+-- 2. The diary table is missing a foreign key for page_link from the watched table
 ALTER TABLE diary
 ADD COLUMN film_link text;
 
@@ -43,7 +43,7 @@ SELECT username, title, release_year, COUNT(film_link) FROM diary
 GROUP BY username, title, release_year
 HAVING COUNT(film_link) >= 2;
 
--- 2.
+-- 3. Replace watch_date column from the watched table with the earliest date
 WITH min_dates AS (
   SELECT username, page_link, MIN(watch_date) AS earliest_date
   FROM (
@@ -58,7 +58,7 @@ SET watch_date = min_dates.earliest_date
 FROM min_dates
 WHERE watched.username = min_dates.username AND watched.page_link = min_dates.page_link;
 
--- 3.
+-- 4. Remove watch_date column from diary table and drop extra tables
 ALTER TABLE diary
 DROP COLUMN watch_date;
 
