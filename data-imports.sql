@@ -21,7 +21,7 @@ CREATE TEMP TABLE temp_watched (
   username text NOT NULL REFERENCES temp_profiles (username),
   watch_date date NOT NULL,
   title text NOT NULL,
-  release_year smallint NOT NULL,
+  release_year smallint,
   page_link text NOT NULL,
   PRIMARY KEY (username, page_link)
 );
@@ -30,7 +30,7 @@ CREATE TEMP TABLE temp_watchlist (
   username text NOT NULL REFERENCES temp_profiles (username),
   add_date date NOT NULL,
   title text NOT NULL,
-  release_year smallint NOT NULL,
+  release_year smallint,
   page_link text NOT NULL,
   PRIMARY KEY (username, page_link)
 );
@@ -39,7 +39,7 @@ CREATE TEMP TABLE temp_reviews (
   username text NOT NULL REFERENCES temp_profiles (username),
   watch_date date,
   title text NOT NULL,
-  release_year smallint NOT NULL,
+  release_year smallint,
   page_link text NOT NULL,
   rating numeric(2, 1),
   rewatch text,
@@ -53,7 +53,7 @@ CREATE TEMP TABLE temp_ratings (
   username text NOT NULL REFERENCES temp_profiles (username),
   watch_date date NOT NULL,
   title text NOT NULL,
-  release_year smallint NOT NULL,
+  release_year smallint,
   page_link text NOT NULL,
   rating numeric(2, 1) NOT NULL,
   PRIMARY KEY (username, page_link)
@@ -63,7 +63,7 @@ CREATE TEMP TABLE temp_diary (
   username text NOT NULL REFERENCES temp_profiles (username),
   watch_date date NOT NULL,
   title text NOT NULL,
-  release_year smallint NOT NULL,
+  release_year smallint,
   page_link text NOT NULL,
   rating numeric(2, 1),
   rewatch text,
@@ -83,7 +83,7 @@ CREATE TEMP TABLE temp_liked_films (
   username text NOT NULL REFERENCES temp_profiles (username),
   watch_date date,
   title text NOT NULL,
-  release_year smallint NOT NULL,
+  release_year smallint,
   page_link text NOT NULL,
   PRIMARY KEY (username, page_link)
 );
@@ -105,6 +105,39 @@ COPY temp_diary FROM 'C:/bilal/diary.csv' WITH (FORMAT CSV, HEADER);
 COPY temp_user_comments FROM 'C:/bilal/comments.csv' WITH (FORMAT CSV, HEADER);
 COPY temp_liked_films FROM 'C:/bilal/likes/films.csv' WITH (FORMAT CSV, HEADER);
 COPY temp_liked_reviews FROM 'C:/bilal/likes/reviews.csv' WITH (FORMAT CSV, HEADER);
+
+-- imports for ali
+COPY temp_profiles FROM 'C:/ali/profile.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_watched FROM 'C:/ali/watched.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_watchlist FROM 'C:/ali/watchlist.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_reviews FROM 'C:/ali/reviews.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_ratings FROM 'C:/ali/ratings.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_diary FROM 'C:/ali/diary.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_user_comments FROM 'C:/ali/comments.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_liked_films FROM 'C:/ali/likes/films.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_liked_reviews FROM 'C:/ali/likes/reviews.csv' WITH (FORMAT CSV, HEADER);
+
+-- imports for ori
+COPY temp_profiles FROM 'C:/ori/profile.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_watched FROM 'C:/ori/watched.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_watchlist FROM 'C:/ori/watchlist.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_reviews FROM 'C:/ori/reviews.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_ratings FROM 'C:/ori/ratings.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_diary FROM 'C:/ori/diary.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_user_comments FROM 'C:/ori/comments.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_liked_films FROM 'C:/ori/likes/films.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_liked_reviews FROM 'C:/ori/likes/reviews.csv' WITH (FORMAT CSV, HEADER);
+
+-- imports for shinx
+COPY temp_profiles FROM 'C:/shinx/profile.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_watched FROM 'C:/shinx/watched.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_watchlist FROM 'C:/shinx/watchlist.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_reviews FROM 'C:/shinx/reviews.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_ratings FROM 'C:/shinx/ratings.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_diary FROM 'C:/shinx/diary.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_user_comments FROM 'C:/shinx/comments.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_liked_films FROM 'C:/shinx/likes/films.csv' WITH (FORMAT CSV, HEADER);
+COPY temp_liked_reviews FROM 'C:/shinx/likes/reviews.csv' WITH (FORMAT CSV, HEADER);
 
 INSERT INTO profiles
 SELECT *
@@ -190,11 +223,11 @@ WHERE NOT EXISTS (
   WHERE liked_reviews.username = temp_liked_reviews.username AND liked_reviews.page_link = temp_liked_reviews.page_link
 );
 
+DROP TABLE temp_diary;
 DROP TABLE temp_watched;
 DROP TABLE temp_watchlist;
 DROP TABLE temp_reviews;
 DROP TABLE temp_ratings;
-DROP TABLE temp_diary;
 DROP TABLE temp_user_comments;
 DROP TABLE temp_liked_films;
 DROP TABLE temp_liked_reviews;
